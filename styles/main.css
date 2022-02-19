@@ -37,21 +37,13 @@
     max-width: 450px;
 }
 
-.falling-squares-window {
+.game-window {
     border: 1px solid black;
-    width: 500px;
-    height: 500px;
     position: absolute;
 }
-
 .container{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-.game-container {
-    width: 500px;
-    height: 500px;
 }
