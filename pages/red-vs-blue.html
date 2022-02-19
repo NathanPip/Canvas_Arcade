@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width='device-width', initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Red Vs. Blue</title>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="../styles/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="game-container" style="width: 500px; height: 400px;">
+        <canvas
+          class="game-window"
+          id="background"
+          width="500"
+          height="400"
+          style="background:black;"
+        ></canvas>
+        <canvas
+          class="game-window"
+          id="player"
+          width="500"
+          height="400"
+        ></canvas>
+        <canvas
+          class="game-window"
+          id="player2"
+          width="500"
+          height="400"
+        ></canvas>
+        <canvas class="game-window" id="gui" width="500" height="400"></canvas>
+      </div>
+    </div>
+    <a href="../index.html">
+      <h2 id="back">Back</h2>
+    </a>
+    <script src="../scripts/RedVsBlue.js"></script>
+  </body>
 </html>

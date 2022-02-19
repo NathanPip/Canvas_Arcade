@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width='device-width', initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Super Dodger</title>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="../styles/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="game-container" style="width: 1300px; height: 550px;">
+        <canvas
+          class="game-window"
+          id="background"
+          width="1300"
+          height="550"
+          style="background:black;"
+        ></canvas>
+        <canvas
+          class="game-window"
+          id="player"
+          width="1300"
+          height="550"
+        ></canvas>
+        <canvas class="game-window" id="gui" width="1300" height="400"></canvas>
+      </div>
+    </div>
+    <a href="../index.html">
+      <h2 id="back">Back</h2>
+    </a>
+    <script src="../scripts/SuperDodger.js"></script>
+  </body>
 </html>
