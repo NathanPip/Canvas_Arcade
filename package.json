@@ -1,0 +1,24 @@
+{
+  "name": "arcade",
+  "version": "1.0.0",
+  "description": "A website I made to host a bunch of little games I made in the html canvas element when I was younger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nather22/CanvasArcade.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nather22/CanvasArcade/issues"
+  },
+  "homepage": "https://github.com/nather22/CanvasArcade#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
