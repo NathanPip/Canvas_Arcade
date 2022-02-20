@@ -9,30 +9,31 @@
   </head>
   <body>
     <div class="container">
-      <div class="game-container" style="width: 500px; height: 500px;">
+      <div
+        class="game-container"
+        style="width: 500px; height: 500px; border: 1px solid white;"
+      >
         <canvas
           class="game-window"
           id="background"
           width="500"
           height="500"
+          style="background:white;"
         ></canvas>
-        <canvas
-          class="game-window"
-          id="game"
-          width="500"
-          height="500"
-        ></canvas>
-        <canvas
-          class="game-window"
-          id="gui"
-          width="500"
-          height="500"
-        ></canvas>
+        <canvas class="game-window" id="game" width="500" height="500"></canvas>
+        <canvas class="game-window" id="gui" width="500" height="500"></canvas>
       </div>
-    </div>
+      <h3>Controls</h3>
+      <ul class="controls">
+        <li class="controls-item">Up Arrow: Move Up</li>
+        <li class="controls-item">Down Arrow: Move Down</li>
+        <li class="controls-item">Right Arrow: Move Right</li>
+        <li class="controls-item">Left Arrow: Move Left</li>
+      </ul>
       <a href="../index.html">
         <h2 id="back">Back</h2>
       </a>
+    </div>
     <script src="../scripts/FallingBlocks.js"></script>
   </body>
 </html>

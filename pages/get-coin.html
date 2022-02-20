@@ -9,13 +9,29 @@
   </head>
   <body>
     <div class="container">
-      <div class="game-container" style="width: 500px; height: 400px;">
-            <canvas class='game-window' id="game" width=500 height=400 style='background: aqua;'></canvas>
+      <div
+        class="game-container"
+        style="width: 500px; height: 400px; border: 1px solid black;"
+      >
+        <canvas
+          class="game-window"
+          id="game"
+          width="500"
+          height="400"
+          style="background: #ddd;"
+        ></canvas>
       </div>
-    </div>
+      <h3>Controls</h3>
+      <ul class="controls">
+        <li class="controls-item">Up Arrow: Move Up</li>
+        <li class="controls-item">Down Arrow: Move Down</li>
+        <li class="controls-item">Right Arrow: Move Right</li>
+        <li class="controls-item">Left Arrow: Move Left</li>
+      </ul>
       <a href="../index.html">
         <h2 id="back">Back</h2>
       </a>
+    </div>
     <script src="../scripts/GetCoin.js"></script>
   </body>
 </html>

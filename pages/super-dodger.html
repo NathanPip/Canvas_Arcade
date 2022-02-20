@@ -9,7 +9,10 @@
   </head>
   <body>
     <div class="container">
-      <div class="game-container" style="width: 900px; height: 550px;">
+      <div
+        class="game-container"
+        style="width: 900px; height: 550px; border: 1px solid white;"
+      >
         <canvas
           class="game-window"
           id="background"
@@ -25,10 +28,17 @@
         ></canvas>
         <canvas class="game-window" id="gui" width="900" height="400"></canvas>
       </div>
+      <h3>Controls</h3>
+      <ul class="controls">
+        <li class="controls-item">Up Arrow: Move Up</li>
+        <li class="controls-item">Down Arrow: Move Down</li>
+        <li class="controls-item">Right Arrow: Move Right</li>
+        <li class="controls-item">Left Arrow: Move Left</li>
+      </ul>
+      <a href="../index.html">
+        <h2 id="back">Back</h2>
+      </a>
     </div>
-    <a href="../index.html">
-      <h2 id="back">Back</h2>
-    </a>
     <script src="../scripts/SuperDodger.js"></script>
   </body>
 </html>

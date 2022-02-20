@@ -263,30 +263,30 @@ function render() {
     fuelBar.render();
     player.render();
 
-    pG.font = "bold 20px consolas";
+    pG.font = "20px consolas";
     pG.fillStyle = "white";
     pG.fillText("Time: " + time, 2, 30);
   }
 
   if (gameState === "gameover") {
-    pG.font = "bold 75px impact";
-    pG.strokeStyle = "blue";
-    pG.strokeText("GAMEOVER", width / 2 - 200, height / 2);
-    pG.font = "bold 30px impact";
+    pG.font = "75px impact";
+    // pG.strokeStyle = "blue";
+    pG.strokeText("GAMEOVER", width / 2 - 160, height / 2);
+    pG.font = "30px impact";
     pG.strokeText(
       "Your Time: " + time + "sec",
-      width / 2 - 120,
+      width / 2 - 90,
       height / 2 + 50
     );
     pG.fillStyle = "red";
-    pG.fillText("Enter to Restart", width / 2 - 130, height / 2 + 100);
+    pG.fillText("Enter to Restart", width / 2 - 95, height / 2 + 100);
   }
 
   if (gameState === "menu") {
-    pG.font = "bold 50px impact";
+    pG.font = "50px impact";
     pG.fillStyle = "white";
     pG.fillText("Super Dodger Infinity", width / 2 - 240, height / 2 - 60);
-    pG.font = "bold 30px impact";
+    pG.font = "30px impact";
     pG.strokeStyle = "white";
     pG.strokeText("Press Space To Play", width / 2 - 135, height / 2);
 
@@ -294,7 +294,7 @@ function render() {
   }
 
   if (gameState === "countDown") {
-    pG.font = "bold 140px impact";
+    pG.font = "140px impact";
     pG.strokeStyle = "white";
     pG.strokeText(countDown, width / 2 - 50, height / 2);
     if (countDown <= 0) {

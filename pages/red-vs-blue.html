@@ -9,7 +9,10 @@
   </head>
   <body>
     <div class="container">
-      <div class="game-container" style="width: 500px; height: 400px;">
+      <div
+        class="game-container"
+        style="width: 500px; height: 400px; border: 1px solid white;"
+      >
         <canvas
           class="game-window"
           id="background"
@@ -31,10 +34,25 @@
         ></canvas>
         <canvas class="game-window" id="gui" width="500" height="400"></canvas>
       </div>
+      <h3>Controls</h3>
+      <div class="controls-container">
+        <ul class="controls">
+          <li class="controls-item" style="margin-bottom: 1em;">1st Player</li>
+          <li class="controls-item">W: Move Up</li>
+          <li class="controls-item">S: Move Down</li>
+          <li class="controls-item">D: Shoot</li>
+        </ul>
+        <ul class="controls">
+          <li class="controls-item" style="margin-bottom: 1em;">2nd Player</li>
+          <li class="controls-item">Up Arrow: Move Up</li>
+          <li class="controls-item">Down Arrow: Move Down</li>
+          <li class="controls-item">Left Arrow: Shoot</li>
+        </ul>
+      </div>
+      <a href="../index.html">
+        <h2 id="back">Back</h2>
+      </a>
     </div>
-    <a href="../index.html">
-      <h2 id="back">Back</h2>
-    </a>
     <script src="../scripts/RedVsBlue.js"></script>
   </body>
 </html>

@@ -38,8 +38,14 @@ const playerPad = {
   },
   //player controls
   tick: function() {
-    if (Key.up && this.y > 0) this.y -= this.speed;
-    if (Key.down && this.y < height - 80) this.y += this.speed;
+    if (ball.xDirection === 1) {
+      if (ball.y > this.y + this.height-2) {
+        this.y += this.speed;
+      }
+      if (ball.y < this.y) {
+        this.y -= this.speed;
+      }
+    }
   }
 };
 
@@ -63,7 +69,7 @@ const enemyPad = {
   //very basic enemy ai
   tick: function() {
     if (ball.xDirection === 0) {
-      if (ball.y > this.y + this.height-1) {
+      if (ball.y > this.y + this.height-2) {
         this.y += this.speed;
       }
       if (ball.y < this.y) {
@@ -108,10 +114,10 @@ const ball = {
   },
   //ball update function
   tick: function() {
-    //ball exits with random speed between 4 and 7
-    this.speed = Math.random()*3 + 4;
     //handles collision logic
     if ((collision(this, playerPad) || collision(this, enemyPad))) {
+    //ball exits with random speed between 4 and 7
+      this.speed = Math.random()*3 + 4;
       //changes direction of ball
       if (collision(this, playerPad)) {
         this.xDirection = 0;
@@ -155,61 +161,6 @@ const ball = {
     }
   }
 };
-
-//Key states
-let Key = {
-  up: false,
-  down: false,
-  right: false,
-  left: false
-};
-
-//Key press event listeners
-addEventListener(
-  "keydown",
-  function(e) {
-    var keyCode = e.keyCode ? e.keyCode : e.which;
-
-    switch (keyCode) {
-      case 38:
-        Key.up = true;
-        break;
-      case 40:
-        Key.down = true;
-        break;
-      case 39:
-        Key.right = true;
-        break;
-      case 37:
-        Key.left = true;
-        break;
-    }
-  },
-  false
-);
-
-addEventListener(
-  "keyup",
-  function(e) {
-    var keyCode = e.keyCode ? e.keyCode : e.which;
-
-    switch (keyCode) {
-      case 38:
-        Key.up = false;
-        break;
-      case 40:
-        Key.down = false;
-        break;
-      case 39:
-        Key.right = false;
-        break;
-      case 37:
-        Key.left = false;
-        break;
-    }
-  },
-  false
-);
 
 //Main function which only renders the background and is only called once
 const main = () => {
