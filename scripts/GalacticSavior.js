@@ -39,31 +39,31 @@ const collide = (obj1, obj2) => {
 
 //creates a row of stars and adds them to the star array
 const createStars = amount => {
-    for (i = 0; i < amount; i++) {
-      stars.push(new Star(Math.random() * width, -5));
+  for (i = 0; i < amount; i++) {
+    stars.push(new Star(Math.random() * width, -5));
+  }
+};
+//spawns enemies based on num which is controlled by the level, #enemies = num^2
+const initEnemies = () => {
+  for (x = 0; x < num; x++) {
+    for (y = 0; y < num; y++) {
+      enemies.push(new Enemy(x * 24 + width / 2 - 75, y * 24));
     }
-  };
-  //spawns enemies based on num which is controlled by the level, #enemies = num^2
-  const initEnemies = () => {
-    for (x = 0; x < num; x++) {
-      for (y = 0; y < num; y++) {
-        enemies.push(new Enemy(x * 24 + width / 2 - 75, y * 24));
-      }
-    }
-  };
-  //Initializes stars
-  const initStars = amount => {
-    for (i = 0; i < amount; i++) {
-      stars.push(new Star(Math.random() * width, Math.random() * height));
-    }
-  };
-  //////////////////////////////////////////////////////////////
-  const init = () => {
-    if (level < 10 && gameState === "play") {
-      initEnemies();
-    }
-    initStars(600);
-  };
+  }
+};
+//Initializes stars
+const initStars = amount => {
+  for (i = 0; i < amount; i++) {
+    stars.push(new Star(Math.random() * width, Math.random() * height));
+  }
+};
+//////////////////////////////////////////////////////////////
+const init = () => {
+  if (level < 10 && gameState === "play") {
+    initEnemies();
+  }
+  initStars(600);
+};
 
 //boss object
 const boss = {
@@ -290,28 +290,27 @@ addEventListener(
   false
 );
 
-
 //Restarts the entire game to original state
 const Restart = () => {
-    gameState = "menu";
-    player.x = width / 2 - 20;
-    player.y = height - 20;
-    num = 2;
-    level = 0;
-    bossHealth = 60;
-    healthBar.width = 240;
-    boss.x = width / 2 - 100;
-    enemies = [];
-    bullets = [];
-  };
+  gameState = "menu";
+  player.x = width / 2 - 20;
+  player.y = height - 20;
+  num = 2;
+  level = 0;
+  bossHealth = 60;
+  healthBar.width = 240;
+  boss.x = width / 2 - 100;
+  enemies = [];
+  bullets = [];
+};
 //Main render function
 const render = () => {
-    //Clears all the draws from the previous frame
+  //Clears all the draws from the previous frame
   pG.clearRect(0, 0, width, height);
   eG.clearRect(0, 0, width, height);
   gui.clearRect(0, 0, width, height);
   bG.clearRect(0, 0, width, height);
-    //Render all of the stars in the stars array
+  //Render all of the stars in the stars array
   for (let i in stars) stars[i].render();
 
   if (level === 8) {
@@ -331,8 +330,7 @@ const render = () => {
     gui.fillText("Boss Health", width / 2 - 80, 15);
   }
 
-  
-//render handling for game states
+  //render handling for game states
   if (gameState === "play") {
     for (let i in enemies) enemies[i].render();
 
@@ -345,7 +343,7 @@ const render = () => {
     gui.fillStyle = "yellow";
     gui.fillText("GAME OVER", width / 2 - 130, height / 2);
     gui.font = "bold 25px consolas";
-    gui.fillText("press space to restart", width / 2 - 160, height / 2+50);
+    gui.fillText("press space to restart", width / 2 - 160, height / 2 + 50);
   }
   if (gameState === "menu") {
     gui.font = "bold 50px consolas";
@@ -363,7 +361,7 @@ const render = () => {
 };
 //Main Update function
 const update = () => {
-    //call Create stars
+  //call Create stars
   createStars(1);
   for (let i in stars) stars[i].update();
   //Main Game Logic
@@ -387,8 +385,8 @@ const update = () => {
   if (gameState === "play" || gameState === "boss") {
     player.update();
     for (let i in bullets) {
-        bullets[i].update();
-      }
+      bullets[i].update();
+    }
     if (shootTime <= 0) {
       player.canShoot = true;
       boss.canshoot = true;
