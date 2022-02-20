@@ -272,7 +272,7 @@ const update = () => {
       Restart();
     }
   }
-}
+};
 
 //main render function
 const render = () => {
@@ -319,7 +319,7 @@ const render = () => {
     gui.fillStyle = "blue";
     gui.fillText("Press 2 for 2 Players", width / 2 - 110, height / 2 + 75);
   }
-}
+};
 
 //restart function
 function Restart() {
