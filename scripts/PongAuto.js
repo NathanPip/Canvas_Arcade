@@ -1,9 +1,13 @@
+import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+
 //All of the seperate canvas selectors
 const bg = document.getElementById("background").getContext("2d");
 const pg = document.getElementById("player").getContext("2d");
 const eg = document.getElementById("enemy").getContext("2d");
 const cg = document.getElementById("ball").getContext("2d");
 const gui = document.getElementById("gui").getContext("2d");
+const rightSideElement = document.querySelector(".right-score");
+const leftSideElement = document.querySelector(".left-score");
 //width and height of play screen and fps
 const width = 500;
 const height = 500;
@@ -30,7 +34,7 @@ const playerPad = {
   //speed the pad travels spd*fps = px per sec
   speed: 5,
   //player's current score
-  score: 0,
+  score: getStorage("leftSideScore", 0),
   //player render function
   render: function() {
     pg.fillStyle = "white";
@@ -39,7 +43,7 @@ const playerPad = {
   //player controls
   tick: function() {
     if (ball.xDirection === 1) {
-      if (ball.y > this.y + this.height-2) {
+      if (ball.y > this.y + this.height - 2) {
         this.y += this.speed;
       }
       if (ball.y < this.y) {
@@ -60,7 +64,7 @@ const enemyPad = {
   //speed is slightly slower to give player a fighting chance
   speed: 5,
   //enemy's current score
-  score: 0,
+  score: getStorage("rightSideScore", 0),
   //enemy render function
   render: function() {
     eg.fillStyle = "white";
@@ -69,7 +73,7 @@ const enemyPad = {
   //very basic enemy ai
   tick: function() {
     if (ball.xDirection === 0) {
-      if (ball.y > this.y + this.height-2) {
+      if (ball.y > this.y + this.height - 2) {
         this.y += this.speed;
       }
       if (ball.y < this.y) {
@@ -115,9 +119,9 @@ const ball = {
   //ball update function
   tick: function() {
     //handles collision logic
-    if ((collision(this, playerPad) || collision(this, enemyPad))) {
-    //ball exits with random speed between 4 and 7
-      this.speed = Math.random()*3 + 4;
+    if (collision(this, playerPad) || collision(this, enemyPad)) {
+      //ball exits with random speed between 4 and 7
+      this.speed = Math.random() * 3 + 4;
       //changes direction of ball
       if (collision(this, playerPad)) {
         this.xDirection = 0;
@@ -153,10 +157,14 @@ const ball = {
     //if ball hits either side of game window
     if (this.x <= 0) {
       enemyPad.score += 1;
+      setStorage("rightSideScore", enemyPad.score);
+      rightSideElement.innerHTML = `Score </br> ${enemyPad.score}`;
       this.reset();
     }
     if (this.x >= width + this.width) {
       playerPad.score += 1;
+      setStorage("leftSideScore", playerPad.score);
+      leftSideElement.innerHTML = `Score </br> ${playerPad.score}`;
       this.reset();
     }
   }
@@ -168,6 +176,8 @@ const main = () => {
     bg.fillStyle = "white";
     bg.fillRect(245, i * 10 + i * 10 + 4, 5, 10);
   }
+  rightSideElement.innerHTML = `Score </br> ${enemyPad.score}`;
+  leftSideElement.innerHTML = `Score </br> ${playerPad.score}`;
 };
 //Main render function
 const render = () => {
@@ -180,11 +190,6 @@ const render = () => {
   enemyPad.render();
   playerPad.render();
   ball.render();
-  //print scores to screen
-  gui.fillStyle = "white";
-  gui.font = "bold 50px Comic Sans";
-  gui.fillText("" + playerPad.score, 40, 50);
-  gui.fillText("" + enemyPad.score, width - 60, 50);
 };
 
 //Main update/tick function

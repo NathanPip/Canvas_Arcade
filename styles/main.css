@@ -70,6 +70,7 @@ a {
     height: 90vh;
     width: 100%;
 }
+
 .controls-container {
     width: 100%;
     display: flex;
@@ -84,4 +85,15 @@ a {
 }
 .controls-item {
     margin-bottom: .5em;
+}
+
+#pong-container {
+    display: flex;
+}
+
+.score {
+    font-size: 1.25em;
+    text-align: center;
+    line-height: 1.5;
+    margin: 0 1em;
 }

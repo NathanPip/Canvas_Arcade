@@ -1,3 +1,5 @@
+import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+
 const width = 500;
 const height = 400;
 
@@ -5,6 +7,7 @@ const FPS = 60;
 
 let gameState = "menu";
 
+const highscoreElement = document.querySelector(".highscore");
 const canvas = document.getElementById("game");
 const g = canvas.getContext("2d");
 
@@ -12,6 +15,9 @@ let x = 50;
 let y = 50;
 
 let lives = 3;
+let highscore = getStorage("getCoinHighscore", 0);
+let score = 0;
+highscoreElement.innerText = `Highscore: ${highscore}`;
 
 let coins = [];
 let dummyCoins = [];
@@ -20,7 +26,6 @@ const player = {
   x: 50,
   y: 50,
   speed: 5,
-  score: 0,
   width: 20,
   height: 20,
   tick: function() {
@@ -32,6 +37,85 @@ const player = {
   render: function() {
     g.fillStyle = "black";
     g.fillRect(this.x, this.y, this.width, this.height);
+  }
+};
+
+let dummyCoin = function(x, y) {
+  this.x = x;
+  this.y = y;
+  this.width = 8;
+  this.height = 8;
+  this.render = function() {
+    g.fillStyle = "red";
+    g.fillRect(this.x, this.y, this.width, this.height);
+  };
+  this.tick = function() {
+    if (collision(this, player)) {
+      lives -= 1;
+      removeDummyCoin(this);
+    }
+  };
+};
+
+let Coin = function(x, y) {
+  this.x = x;
+  this.y = y;
+  this.width = 8;
+  this.height = 8;
+  this.render = function() {
+    g.fillStyle = "yellow";
+    g.fillRect(this.x, this.y, this.width, this.height);
+  };
+  this.tick = function() {
+    if (collision(this, player)) {
+      score++;
+      removeCoin(this);
+    }
+  };
+};
+
+const collision = (obj1, obj2) => {
+  return (
+    obj1.x < obj2.x + obj2.width &&
+    obj1.x + obj1.width > obj2.x &&
+    obj1.y < obj2.y + obj2.height &&
+    obj1.y + obj1.height > obj2.y
+  );
+};
+
+const renderCoins = () => {
+  for (let i in coins) {
+    coins[i].render();
+  }
+};
+
+const renderDummyCoins = () => {
+  for (let i in dummyCoins) {
+    dummyCoins[i].render();
+  }
+};
+
+const initDummyCoin = amount => {
+  for (let i = 0; i < amount; i++) {
+    dummyCoins.push(
+      new dummyCoin(Math.random() * width, Math.random() * height)
+    );
+  }
+};
+
+const removeCoin = coin => {
+  let index = coins.indexOf(coin);
+  coins.splice(index, 1);
+};
+
+const removeDummyCoin = coin => {
+  let index = dummyCoins.indexOf(coin);
+  dummyCoins.splice(index, 1);
+};
+
+const initCoin = amount => {
+  for (let i = 0; i < amount; i++) {
+    coins.push(new Coin(Math.random() * width, Math.random() * height));
   }
 };
 
@@ -106,76 +190,6 @@ addEventListener(
   },
   false
 );
-let dummyCoin = function(x, y) {
-  this.x = x;
-  this.y = y;
-  this.width = 8;
-  this.height = 8;
-  this.render = function() {
-    g.fillStyle = "red";
-    g.fillRect(this.x, this.y, this.width, this.height);
-  };
-  this.tick = function() {
-    if (collision(this, player)) {
-      lives -= 1;
-      removeDummyCoin(this);
-      console.log(lives);
-    }
-    if (collision(this, Coin)) {
-      this.y--;
-    }
-  };
-};
-
-const initDummyCoin = amount => {
-  for (i = 0; i < amount; i++) {
-    dummyCoins.push(
-      new dummyCoin(Math.random() * width, Math.random() * height)
-    );
-  }
-};
-
-let Coin = function(x, y) {
-  this.x = x;
-  this.y = y;
-  this.width = 8;
-  this.height = 8;
-  this.render = function() {
-    g.fillStyle = "yellow";
-    g.fillRect(this.x, this.y, this.width, this.height);
-  };
-  this.tick = function() {
-    if (collision(this, player)) {
-      player.score++;
-      removeCoin(this);
-    }
-  };
-};
-
-const removeCoin = coin => {
-  let index = coins.indexOf(coin);
-  coins.splice(index, 1);
-};
-
-const removeDummyCoin = coin => {
-  let index = dummyCoins.indexOf(coin);
-  dummyCoins.splice(index, 1);
-};
-
-const initCoin = amount => {
-  for (i = 0; i < amount; i++) {
-    coins.push(new Coin(Math.random() * width, Math.random() * height));
-  }
-};
-
-const collision = (obj1, obj2) => {
-  return (
-    obj1.x < obj2.x + obj2.width &&
-    obj1.x + obj1.width > obj2.x &&
-    obj1.y < obj2.y + obj2.height &&
-    obj1.y + obj1.height > obj2.y
-  );
-};
 
 const init = () => {
   if (gameState === "play") {
@@ -184,25 +198,13 @@ const init = () => {
   }
 };
 
-const renderCoins = () => {
-  for (var i in coins) {
-    coins[i].render();
-  }
-};
-
-const renderDummyCoins = () => {
-  for (var i in dummyCoins) {
-    dummyCoins[i].render();
-  }
-};
-
 const render = () => {
   g.clearRect(0, 0, width, height);
 
   if (gameState === "play") {
-    g.font = "bold 20px consolas";
+    g.font = "20px consolas";
     g.fillStyle = "black";
-    g.fillText("score: " + player.score, 2, 20);
+    g.fillText("score: " + score, 2, 20);
     g.fillText("Lives: " + lives, 2, 40);
 
     player.render();
@@ -210,21 +212,21 @@ const render = () => {
     renderDummyCoins();
   }
   if (gameState === "gameover") {
-    g.font = "bold 100px impact";
+    g.font = "100px impact";
     g.fillStyle = "red";
     g.fillText("GameOver", width / 2 - 230, height / 2);
     g.font = "bold 40px impact";
     g.fillStyle = "black";
-    g.fillText("Score: " + player.score, width / 2 - 170, height / 2 + 50);
+    g.fillText("Score: " + score, width / 2 - 170, height / 2 + 50);
   }
   if (gameState === "menu") {
-    g.font = "bold 70px consolas";
+    g.font = "70px consolas";
     g.fillStyle = "green";
     g.fillText("Get Coin", width / 2 - 70 * 2 - 10, height / 2);
-    g.font = "bold 30px consolas";
+    g.font = "30px consolas";
     g.fillText("Press Space", width / 2 - 85, height / 2 + 50);
     g.fillStyle = "black";
-    g.font = "bold 20px consolas";
+    g.font = "20px consolas";
     g.fillText("Player: ", width / 2 - 200, height / 2 + 100);
     g.fillRect(width / 2 - 120, height / 2 + 85, 20, 20);
 
@@ -268,6 +270,11 @@ const tick = () => {
     }
 
     if (lives <= 0) {
+      if (score > highscore) {
+        setStorage("getCoinHighscore", score);
+        highscore = score;
+        highscoreElement.innerText = `Highscore: ${highscore}`;
+      }
       gameState = "gameover";
     }
   }

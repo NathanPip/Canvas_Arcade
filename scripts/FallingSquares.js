@@ -1,3 +1,5 @@
+import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+
 //a function for easily selecting canvas elements on the DOM
 const canvas = id => {
   return document.getElementById(id).getContext("2d");
@@ -7,6 +9,7 @@ const canvas = id => {
 const gc = canvas("game");
 const gui = canvas("gui");
 const bg = canvas("background");
+const highscoreElement = document.querySelector(".highscore");
 const fps = 60;
 const width = 500;
 const height = 500;
@@ -15,8 +18,10 @@ const height = 500;
 let blockLine = [];
 //score and timer for everytime a new block line spawns
 let score = 0;
+let highscore = getStorage("fallingSquaresHighscore", 0);
 let spawnTimer = 1;
 
+highscoreElement.innerText = `Highscore: ${highscore}`;
 //a collision function which checks to see if two objects are colliding, returns true if colliding, false if otherwise
 const collision = (obj1, obj2) => {
   return (
@@ -100,8 +105,12 @@ const block = function(x, y) {
     this.y += this.spd;
     //collision check that resets player position as well as removes all block lines from array and resets score back to 0
     if (collision(this, player)) {
+      if (score > highscore) {
+        setStorage("fallingSquaresHighscore", score);
+        highscore = score;
+        highscoreElement.innerText = `Highscore: ${highscore}`;
+      }
       gc.fillStyle = getRandomColor();
-      console.log("hit");
       player.restart();
       blockLine.splice(0, blockLine.length);
       score = 0;

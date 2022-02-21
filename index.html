@@ -11,28 +11,45 @@
   <body>
     <div class="wrapper">
       <h1 class="title">Canvas Arcade</h1>
-      <div class="game-container" style="width: 500px; height: 500px; border: 3px solid white;">
-        <canvas
-          class="game-window"
-          id="background"
-          width="500"
-          height="500"
-          style="background: #010101"
-        ></canvas>
-        <canvas
-          class="game-window"
-          id="player"
-          width="500"
-          height="500"
-        ></canvas>
-        <canvas
-          class="game-window"
-          id="enemy"
-          width="500"
-          height="500"
-        ></canvas>
-        <canvas class="game-window" id="ball" width="500" height="500"></canvas>
-        <canvas class="game-window" id="gui" width="500" height="500"></canvas>
+      <div id="pong-container">
+        <p class="score left-score"></p>
+        <div
+          class="game-container"
+          style="width: 500px; height: 500px; border: 3px solid white;"
+        >
+          <canvas
+            class="game-window"
+            id="background"
+            width="500"
+            height="500"
+            style="background: #010101"
+          ></canvas>
+          <canvas
+            class="game-window"
+            id="player"
+            width="500"
+            height="500"
+          ></canvas>
+          <canvas
+            class="game-window"
+            id="enemy"
+            width="500"
+            height="500"
+          ></canvas>
+          <canvas
+            class="game-window"
+            id="ball"
+            width="500"
+            height="500"
+          ></canvas>
+          <canvas
+            class="game-window"
+            id="gui"
+            width="500"
+            height="500"
+          ></canvas>
+        </div>
+        <p class="score right-score"></p>
       </div>
       <p class="about">
         Canvas Arcade is a simple static site with a bunch of html canvas games
@@ -101,6 +118,6 @@
         </div>
       </div>
     </div>
-    <script src="scripts/PongAuto.js"></script>
+    <script type="module" src="scripts/PongAuto.js"></script>
   </body>
 </html>
