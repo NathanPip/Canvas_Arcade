@@ -1,6 +1,9 @@
+import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+
 //canvas selectors
-const pG = document.getElementById("player").getContext("2d");
-const GUI = document.getElementById("gui").getContext("2d");
+const pG = document.querySelector("#player").getContext("2d");
+const GUI = document.querySelector("#gui").getContext("2d");
+const highscoreElement = document.querySelector(".highscore");
 //constants
 const fps = 60;
 const width = 900;
@@ -10,8 +13,11 @@ let mines = [];
 let coins = [];
 let gameState = "menu";
 let time = 0;
+let highscore = getStorage("superDodgerHighscore", 0);
 let countDown = 3;
 let fuel = 100;
+
+highscoreElement.innerText = `Highscore: ${highscore} seconds`;
 
 //player object
 const player = {
@@ -86,6 +92,11 @@ const Mine = function(x, y, color) {
     }
 
     if (collision(this, player)) {
+      if (time > highscore) {
+        setStorage("superDodgerHighscore", time);
+        highscore = time;
+        highscoreElement.innerText = `Highscore: ${highscore} seconds`;
+      }
       gameState = "gameover";
     }
   };

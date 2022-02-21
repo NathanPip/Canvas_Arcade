@@ -1,9 +1,10 @@
 //All of the seperate canvas selectors
-const bg = document.getElementById("background").getContext("2d");
-const pg = document.getElementById("player").getContext("2d");
-const eg = document.getElementById("enemy").getContext("2d");
-const cg = document.getElementById("ball").getContext("2d");
-const gui = document.getElementById("gui").getContext("2d");
+const bg = document.querySelector("#background").getContext("2d");
+const pg = document.querySelector("#player").getContext("2d");
+const eg = document.querySelector("#enemy").getContext("2d");
+const cg = document.querySelector("#ball").getContext("2d");
+const gui = document.querySelector("#gui").getContext("2d");
+const highScoreElement = document.querySelector('.highscore');
 //width and height of play screen and fps
 const width = 500;
 const height = 500;
@@ -17,6 +18,10 @@ const collision = (obj1, obj2) => {
     obj1.y < obj2.y + obj2.height &&
     obj1.y + obj1.height > obj2.y
   );
+};
+
+const getJSON = (key) => {
+
 };
 
 //Player Pad object
