@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 body {
     font-family: 'Press Start 2P', cursive;
-    background: #010101;
+    background: #020202;
     color: white;
 }
 
@@ -19,6 +19,7 @@ a {
     flex-direction: column;
     align-items: center;
     margin: 50px auto;
+    overflow: hidden;
 }
 
 .title {
@@ -44,7 +45,6 @@ a {
     align-items: center;
     width: 100%;
     max-width: 500px;
-    background: #010101;
 }
 
 .game a{
@@ -87,13 +87,19 @@ a {
     margin-bottom: .5em;
 }
 
-#pong-container {
-    display: flex;
-}
-
 .score {
     font-size: 1.25em;
     text-align: center;
     line-height: 1.5;
     margin: 0 1em;
+}
+
+#pong-container {
+    display: flex;
+}
+
+#window-background {
+    position: absolute;
+    order: -2;
+    z-index: -5;
 }
