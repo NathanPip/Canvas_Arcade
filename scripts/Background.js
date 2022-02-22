@@ -17,7 +17,7 @@ const square = function(x, y) {
   this.alive = Math.random() * 18 < 2 ? true : false;
   this.render = function() {
     if (this.alive) {
-      game.fillStyle = "black";
+      game.fillStyle = "#1a1818";
       game.fillRect(this.x, this.y, this.size, this.size);
     }
   };

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 body {
     font-family: 'Press Start 2P', cursive;
-    background: #020202;
+    background: #010101; 
     color: white;
 }
 
@@ -14,7 +14,8 @@ a {
     color: white;
 }
 .wrapper {
-    width: 95%;
+    width: 90%;
+    max-width: 1600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,11 +25,12 @@ a {
 
 .title {
     font-size: 3em;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+    text-align: center;
 }
 
 .about {
-    margin: 2em 0;
+    margin: 3em 0;
 }
 
 .games {
@@ -43,8 +45,10 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 2em;
     width: 100%;
     max-width: 500px;
+    transition: .25s ease-in-out border;
 }
 
 .game a{
@@ -56,7 +60,7 @@ a {
 }
 
 .game .game-img {
-    max-width: 450px;
+    max-width: 425px;
 }
 
 .game-window {
@@ -65,7 +69,7 @@ a {
 .container{
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     height: 90vh;
     width: 100%;
@@ -94,6 +98,14 @@ a {
     margin: 0 1em;
 }
 
+#back {
+    border-bottom: 2px solid transparent;
+}
+
+#back:hover {
+    border-bottom: 2px solid white;
+}
+
 #pong-container {
     display: flex;
 }
@@ -102,4 +114,18 @@ a {
     position: absolute;
     order: -2;
     z-index: -5;
+}
+
+@media (min-width: 800px) {
+    .hide-sm {
+        display: none;
+    }
+}
+@media (max-width: 800px) {
+    #pong-container {
+        display: none;
+    }
+    .game .game-img {
+        max-width: 300px;
+    }
 }
