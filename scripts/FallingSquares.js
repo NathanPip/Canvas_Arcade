@@ -1,4 +1,4 @@
-import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+import { getGlobalHighscore, getStorage, setStorage, updateGlobalHighscore } from "./LocalStorageFunctions.js";
 
 //a function for easily selecting canvas elements on the DOM
 const canvas = id => {
@@ -9,19 +9,28 @@ const canvas = id => {
 const gc = canvas("game");
 const gui = canvas("gui");
 const bg = canvas("background");
+const globalHighscoreElement = document.querySelector(".global-highscore");
 const highscoreElement = document.querySelector(".highscore");
 const fps = 60;
 const width = 500;
 const height = 500;
+const gameName = "Falling Squares";
 
 //an array of lines of blocks
 let blockLine = [];
 //score and timer for everytime a new block line spawns
 let score = 0;
 let highscore = getStorage("fallingSquaresHighscore", 0);
+let globalHighscore = await getGlobalHighscore(gameName);
 let spawnTimer = 1;
 
-highscoreElement.innerText = `Highscore: ${highscore}`;
+if(highscore > globalHighscore) {
+  await updateGlobalHighscore(gameName, highscore);
+  globalHighscore = highscore;
+}
+
+globalHighscoreElement.innerText = `Global Highscore: ${globalHighscore}`;
+highscoreElement.innerText = `Your Highscore: ${highscore}`;
 //a collision function which checks to see if two objects are colliding, returns true if colliding, false if otherwise
 const collision = (obj1, obj2) => {
   return (
@@ -100,15 +109,19 @@ const block = function(x, y) {
     gc.fillRect(this.x, this.y, this.scl, this.scl);
   };
   //handles all block logic
-  this.init = function() {
+  this.init = async function() {
     //block moves down screen at spd*fps pixels per second
     this.y += this.spd;
     //collision check that resets player position as well as removes all block lines from array and resets score back to 0
     if (collision(this, player)) {
+      if(score > globalHighscore) {
+        globalHighscore = await updateGlobalHighscore(gameName, score);
+        globalHighscoreElement.innerText = `Global Highscore: ${globalHighscore}`;
+      }
       if (score > highscore) {
         setStorage("fallingSquaresHighscore", score);
         highscore = score;
-        highscoreElement.innerText = `Highscore: ${highscore}`;
+        highscoreElement.innerText = `Your Highscore: ${highscore}`;
       }
       gc.fillStyle = getRandomColor();
       player.restart();

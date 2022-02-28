@@ -1,23 +1,37 @@
-import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+import {
+  getStorage,
+  setStorage,
+  getGlobalHighscore,
+  updateGlobalHighscore,
+} from "./LocalStorageFunctions.js";
 
 //canvas selectors
 const pG = document.querySelector("#player").getContext("2d");
 const GUI = document.querySelector("#gui").getContext("2d");
 const highscoreElement = document.querySelector(".highscore");
+const globalHighscoreElement = document.querySelector(".global-highscore");
 //constants
 const fps = 60;
 const width = 900;
 const height = 550;
+const gameName = 'Super Dodger';
 
 let mines = [];
 let coins = [];
 let gameState = "menu";
 let time = 0;
 let highscore = getStorage("superDodgerHighscore", 0);
+let globalHighscore = await getGlobalHighscore(gameName);
 let countDown = 3;
 let fuel = 100;
 
-highscoreElement.innerText = `Highscore: ${highscore} seconds`;
+if(highscore > globalHighscore) {
+  await updateGlobalHighscore(gameName, highscore);
+  globalHighscore = highscore;
+}
+
+highscoreElement.innerText = `Your Highscore: ${highscore} seconds`;
+globalHighscoreElement.innerText = `Global Highscore: ${globalHighscore} seconds`;
 
 //player object
 const player = {
@@ -28,21 +42,21 @@ const player = {
   width: 10,
   height: 10,
   //player render function, draws player to screen
-  render: function() {
+  render: function () {
     pG.fillStyle = "aqua";
     pG.fillRect(this.x, this.y, this.width, this.height);
   },
   //handles player control logic
-  tick: function() {
+  tick: function () {
     if (Key.up && this.y > 0) this.y -= this.speed;
     if (Key.down && this.y < height - 20) this.y += this.speed;
     if (Key.left && this.x > 0) this.x -= this.speed;
     if (Key.right && this.x < width - 20) this.x += this.speed;
-  }
+  },
 };
 
 //coin object, acts as fuel pickup for player
-const Coin = function(x, y, color) {
+const Coin = function (x, y, color) {
   this.x = x;
   this.y = y;
   this.width = 8;
@@ -50,12 +64,12 @@ const Coin = function(x, y, color) {
   this.speed = 4;
   this.color = color;
   //render function
-  this.render = function() {
+  this.render = function () {
     pG.fillStyle = this.color;
     pG.fillRect(this.x, this.y, this.width, this.height);
   };
   //coin tick function
-  this.tick = function() {
+  this.tick = function () {
     this.y += this.speed;
     //kills coin when it drops below screen
     if (this.y > height + 10) {
@@ -73,18 +87,18 @@ const Coin = function(x, y, color) {
 };
 
 //mine object, similar to coin object but kills player on collision and sets gamestate to gameover
-const Mine = function(x, y, color) {
+const Mine = function (x, y, color) {
   this.x = x;
   this.y = y;
   this.width = 8;
   this.height = 8;
   this.color = color;
   this.speed = 4;
-  this.render = function() {
+  this.render = function () {
     pG.fillStyle = this.color;
     pG.fillRect(this.x, this.y, this.width, this.height);
   };
-  this.tick = function() {
+  this.tick = async function () {
     this.y += this.speed;
     if (this.y > height + 10) {
       var Index = mines.indexOf(this);
@@ -92,10 +106,15 @@ const Mine = function(x, y, color) {
     }
 
     if (collision(this, player)) {
+      if (time > globalHighscore) {
+        globalHighscore = await updateGlobalHighscore(gameName, highscore);
+        console.log(globalHighscore);
+        globalHighscoreElement.innerText = `Global Highscore: ${globalHighscore} seconds`;
+      }
       if (time > highscore) {
         setStorage("superDodgerHighscore", time);
         highscore = time;
-        highscoreElement.innerText = `Highscore: ${highscore} seconds`;
+        highscoreElement.innerText = `Your Highscore: ${highscore} seconds`;
       }
       gameState = "gameover";
     }
@@ -110,10 +129,10 @@ const fuelBar = {
   width: fuel,
   height: 15,
   //render function
-  render: function() {
+  render: function () {
     pG.fillStyle = "#00FF04";
     pG.fillRect(this.x, this.y, this.width, this.height);
-  }
+  },
 };
 
 //Key states
@@ -123,13 +142,13 @@ const Key = {
   right: false,
   left: false,
   space: false,
-  enter: false
+  enter: false,
 };
 
 //key event listeners
 addEventListener(
   "keydown",
-  function(e) {
+  function (e) {
     var keyCode = e.keyCode ? e.keyCode : e.which;
 
     switch (keyCode) {
@@ -158,7 +177,7 @@ addEventListener(
 
 addEventListener(
   "keyup",
-  function(e) {
+  function (e) {
     var keyCode = e.keyCode ? e.keyCode : e.which;
 
     switch (keyCode) {
@@ -196,7 +215,7 @@ const collision = (obj1, obj2) => {
 };
 
 //creates line of coins whenever called and pushes them to the coins array
-const createCoins = amount => {
+const createCoins = (amount) => {
   for (let i = 0; i < amount; i++) {
     coins.push(new Coin(Math.random() * width, -5, "#18FF03"));
   }
@@ -334,23 +353,23 @@ function tick() {
 }
 
 //seperate interval functions to handle each change, could derive all from fps interval but used seperate intervals
-setInterval(function() {
+setInterval(function () {
   fuelLife();
 }, 1000 / 2);
 
-setInterval(function() {
+setInterval(function () {
   render();
   tick();
 }, 1000 / fps);
 
-setInterval(function() {
+setInterval(function () {
   mineUpdate();
 }, 1000 / 30);
 
-setInterval(function() {
+setInterval(function () {
   timeUpdate();
 }, 1000 / 1);
 
-setInterval(function() {
+setInterval(function () {
   fuelSpawn();
 }, 1000 / 0.3);

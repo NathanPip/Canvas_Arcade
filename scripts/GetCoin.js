@@ -1,4 +1,4 @@
-import { getStorage, setStorage } from "./LocalStorageFunctions.js";
+import { getStorage, setStorage, getGlobalHighscore, updateGlobalHighscore } from "./LocalStorageFunctions.js";
 
 const width = 500;
 const height = 400;
@@ -7,17 +7,27 @@ const FPS = 60;
 
 let gameState = "menu";
 
+const globalHighscoreElement = document.querySelector(".global-highscore");
 const highscoreElement = document.querySelector(".highscore");
 const canvas = document.getElementById("game");
 const g = canvas.getContext("2d");
+const gameName = 'Get Coin';
 
 let x = 50;
 let y = 50;
 
 let lives = 3;
+let globalHighscore = await getGlobalHighscore(gameName);
 let highscore = getStorage("getCoinHighscore", 0);
 let score = 0;
-highscoreElement.innerText = `Highscore: ${highscore}`;
+
+if(highscore > globalHighscore) {
+  await updateGlobalHighscore(gameName, highscore);
+  globalHighscore = highscore;
+}
+
+globalHighscoreElement.innerText = `Global Highscore: ${globalHighscore}`;
+highscoreElement.innerText = `Your Highscore: ${highscore}`;
 
 let coins = [];
 let dummyCoins = [];
@@ -258,7 +268,7 @@ const updateDummyCoins = () => {
   }
 };
 
-const tick = () => {
+const tick = async () => {
   if (gameState === "play") {
     player.tick();
 
@@ -270,10 +280,14 @@ const tick = () => {
     }
 
     if (lives <= 0) {
+      if(score > globalHighscore) {
+        globalHighscore = await updateGlobalHighscore(gameName, score);
+        globalHighscoreElement.innerText = `Global Highscore: ${globalHighscore}`;
+      }
       if (score > highscore) {
         setStorage("getCoinHighscore", score);
         highscore = score;
-        highscoreElement.innerText = `Highscore: ${highscore}`;
+        highscoreElement.innerText = `Your Highscore: ${highscore}`;
       }
       gameState = "gameover";
     }

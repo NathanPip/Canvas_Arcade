@@ -2,10 +2,10 @@
   "name": "arcade",
   "version": "1.0.0",
   "description": "A website I made to host a bunch of little games I made in the html canvas element when I was younger",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/server.js",
+    "start": "npm install && node server/server.js",
     "build": "npm install"
   },
   "proxy": "http://localhost:5001",
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/nather22/CanvasArcade#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "pg": "^8.7.3"
   }
 }
