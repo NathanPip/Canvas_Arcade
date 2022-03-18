@@ -112,6 +112,7 @@ a {
 
 #window-background {
     position: absolute;
+    top: -130px;
     order: -2;
     z-index: -5;
 }

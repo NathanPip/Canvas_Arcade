@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const data = require('./db');
 const path = require('path');
-const PORT = 5001;
+const PORT = process.env.PORT || 3000;
 
 //middlewear
 app.use(express.static(path.resolve(__dirname, "../")));
